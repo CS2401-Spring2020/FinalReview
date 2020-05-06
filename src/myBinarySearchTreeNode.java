@@ -18,28 +18,34 @@ class myBinarySearchTreeNode{
     //empty array, do nothing
     if(A.length == 0) return;
     
+    // in this scenario, ensure the list is ordered, then recursively insert the middle element first
+    // this will ensure the tree is as balanced as possible.
     if(sortAndInsertMiddle) {
-    	Sort.sort1D(A);
+      Sort.sort1D(A);
+      
+      insertMiddleOfRange(A, 0, A.length-1);
     
-    	insertMiddleOfRange(A, 0, A.length-1);
-    
-	}else {
-	    // this node is the root
-	    myValue = A[0];
-	    
-	    // use the existing insert function on myself to add the rest of the elements
-	    for(int i=1; i<A.length; i++)
-	      insert(A[i]);
-	}
+  	}else {
+  	    // this node is the root
+  	    myValue = A[0];
+  	    
+  	    // use the existing insert function on myself to add the rest of the elements
+  	    for(int i=1; i<A.length; i++)
+  	      insert(A[i]);
+  	}
   }
   
+  // given a sorted array and a range of elements, 
+  // add the middle element then pass off the rest of the inserts to recursive call(s)
   public void insertMiddleOfRange(int[] A, int start, int end) {
-	  if(end < start) return;
-	  int middle = start + (end - start)/2;
-	  if(start == 0 && end == A.length-1) myValue = A[middle];
-	  else insert(A[middle]);
-	  insertMiddleOfRange(A, start, middle-1);
-	  insertMiddleOfRange(A,middle+1, end);
+    //base case
+    if(end < start) return;
+    
+    int middle = start + (end-start)/2;
+    if(start == 0 && end == A.length-1) myValue = A[middle];
+    else insert(A[middle]);
+    insertMiddleOfRange(A, middle+1, end);
+    insertMiddleOfRange(A, start, middle-1);
   }
   
   public void insert(int inValue){

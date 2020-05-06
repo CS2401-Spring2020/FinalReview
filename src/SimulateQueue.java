@@ -11,20 +11,31 @@ public class SimulateQueue {
 	}
 	
 	public int dequeue() {
-		Stack temp = new Stack();
-		while(s.getSize() > 1) temp.push(s.pop());
-		int rtn = s.pop();
-		while(!temp.isEmpty()) s.push(temp.pop());
-		return rtn;
+	  Stack temp = new Stack();
+	  while(s.getSize() > 1) {
+	    temp.push(s.pop());
+	  }
+	  
+	  int rtn = s.pop();
+	  // s should be empty
+	  assert(s.isEmpty());
+	  
+	  while(!temp.isEmpty()) {
+	    s.push(temp.pop());
+	  }
+	  
+	  return rtn;
 	}
 	
 	public boolean isEmpty() { return s.isEmpty(); }
+	public int getSize() { return s.getSize(); }
 	
 	public void reverse() {
-		if(!isEmpty()) {
-			int temp = dequeue();
-			reverse();
-			enqueue(temp);
-		}
+	  // base case
+	  if(getSize() <= 1) return;
+	  
+	  int save = dequeue();
+	  reverse();
+	  enqueue(save);
 	}
 }
